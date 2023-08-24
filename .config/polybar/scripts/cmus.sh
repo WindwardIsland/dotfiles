@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+# Taken and modified from here: https://github.com/raytruong/polybar-cmus/blob/master/cmus.sh
+
 prepend_zero () {
         seq -f "%02g" $1 $1
 }
