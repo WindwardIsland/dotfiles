@@ -1,0 +1,264 @@
+/*                           ______________                        */                                                      
+/* ____  ______________________  ____/__  /_____________________ ________   _____________________  */
+/* _  / / /_  ___/  _ \_  ___/  /    __  __ \_  ___/  __ \_  __ `__ \  _ \  _  ___/_  ___/_  ___/ */
+/* / /_/ /_(__  )/  __/  /   / /___  _  / / /  /   / /_/ /  / / / / /  __/__/ /__ _(__  )_(__  ) */ 
+/* \__,_/ /____/ \___//_/    \____/  /_/ /_//_/    \____//_/ /_/ /_/\___/_(_)___/ /____/ /____/ */  
+
+/* This is my userChrome.css file, a file that allows you to customize the UI of Firefox (or Firefox-based browsers, */
+/* e.g. Librewolf. Most of these CSS snippets come from this repository: https://github.com/MrOtherGuy/firefox-csshacks */
+
+/* You should definitely check out that repository as it may have other CSS snippets that you might want to customize the
+/* browser to your own liking. Here's what I've done using these snippets:
+ 
+/* Replacing the normal loading throbber with a fake loading progress bar at the bottom of a tab */
+/* Hiding the forward button
+/* Added a "one-liner" with the tabs on the left and the navbar on the right side-by-side */ 
+/* Have the bookmarks bar be vertical and appear on the left side of the window */
+/* Hiding the tab search button */
+
+
+/* --- FAKE LOADING PROGRESS BAR --- */
+
+/* Source file https://github.com/MrOtherGuy/firefox-csshacks/tree/master/chrome/tab_loading_progress_bar.css made available under Mozilla Public License v. 2.0 */
+
+@keyframes tab-loading-line-anim{ from{ background-size: 0% } to { background-size: 20% } }
+.tab-background::after{
+    background-size: 90%;
+}
+.tabbrowser-tab:is([busy],[bursting]) > .tab-stack > .tab-background::after{
+  content: "";
+  display: flex;
+  height: 2px;
+  background-color:transparent;
+  background-repeat: no-repeat;
+  background-image: linear-gradient(currentColor,currentColor);
+  transition: background-size 80ms ease-out;
+}
+.tabbrowser-tab[busy]:not([progress],[bursting]) > .tab-stack > .tab-background::after{
+  animation: tab-loading-line-anim 80ms ease;
+  background-size: 20%;
+  opacity: 0.5;
+}
+.tabbrowser-tab[busy][progress] > .tab-stack > .tab-background::after{
+  transition-duration: 2000ms;
+}
+.tabbrowser-tab[bursting] > .tab-stack > .tab-background::after{
+  transition: background-size 80ms ease-out, opacity 80ms linear;
+  background-size: 100%;
+  opacity: 0;
+}
+.tab-throbber{ display: none !important; }
+.tab-icon-image[src]{ display: block !important; }
+
+/* --- HIDING FORWARD BUTTON --- */
+#nav-bar #forward-button {
+  display: none !important;
+}
+
+/* --- ONELINER --- */
+
+/* Source file https://github.com/MrOtherGuy/firefox-csshacks/tree/master/chrome/navbar_tabs_oneliner_tabs_on_left.css made available under Mozilla Public License v. 2.0 */
+
+/* IMPORTANT */
+/*
+Get window_control_placeholder_support.css
+Window controls will be all wrong without it
+NOTE: This is only if you're using a desktop environment (or floating window manager) or if you're on Windows or macOS. If you're using a tiling window manager, you'll be fine as there are no window controls by default. 
+*/
+
+:root[uidensity="compact"]{
+  --tab-block-margin: 2px !important;
+  }
+
+/* Modify these to change relative widths or default height */
+#navigator-toolbox{
+  --uc-navigationbar-width: 45vw;
+  --uc-toolbar-height: 40px;
+  --uc-urlbar-min-width: 50vw; /* minimum width for opened urlbar */
+}
+
+#scrollbutton-up,
+#scrollbutton-down{ border-block-width: 2px !important; }
+
+/* Override for other densities */
+:root[uidensity="compact"] #navigator-toolbox{ --uc-toolbar-height: 34px;}
+:root[uidensity="touch"] #navigator-toolbox{ --uc-toolbar-height: 44px; }
+
+:root[uidensity="compact"] #urlbar-container{
+  --urlbar-container-height: var(--uc-toolbar-height) !important;
+  padding-block: 0 !important;
+}
+:root[uidensity="compact"] #urlbar{
+  --urlbar-toolbar-height: var(--uc-toolbar-height) !important;
+}
+
+/* prevent urlbar overflow on narrow windows */
+/* Dependent on how many items are in navigation toolbar and tabs-/nav-bar ratio - ADJUST AS NEEDED */
+@media screen and (max-width: 1600px){
+  #urlbar-container{ min-width:unset !important }
+}
+
+:root[tabsintitlebar] #toolbar-menubar{
+  height: initial !important;
+}
+:root[tabsintitlebar] #toolbar-menubar[inactive] > :not(.titlebar-buttonbox-container){
+  opacity: 0;
+  pointer-events: none;
+}
+:root[tabsintitlebar] #toolbar-menubar[inactive]{
+  margin-bottom: calc(0px - var(--uc-toolbar-height));
+}
+
+#TabsToolbar > .titlebar-buttonbox-container,
+.titlebar-spacer[type="post-tabs"]{
+  display: none;
+}
+#TabsToolbar{
+  margin-right: var(--uc-navigationbar-width);
+  --tabs-navbar-shadow-size: 0px;
+}
+
+#tabbrowser-tabs{
+  --tab-min-height: calc(var(--uc-toolbar-height) - 2 * var(--tab-block-margin,0px)) !important;
+}
+
+#toolbar-menubar[autohide="true"] > .titlebar-buttonbox-container{
+  min-height: var(--uc-toolbar-height) !important
+}
+#tabbrowser-tabs,
+.tabbrowser-tab[pinned]{
+  min-height: var(--tab-min-height) !important;
+}
+#nav-bar{
+  margin-left: calc(100vw - var(--uc-navigationbar-width));
+  margin-top: calc(0px - var(--uc-toolbar-height));
+}
+
+/* Override style set in window_control_placeholder_support.css  */
+#nav-bar{ border-left-width: 0px !important }
+#nav-bar::before{ display:none !important }
+
+/* Rules specific to window controls on left layout */
+@media (-moz-platform: macos),
+       (-moz-gtk-csd-reversed-placement){
+  :root:not([inFullscreen]) #TabsToolbar-customization-target > .titlebar-spacer[type="pre-tabs"]{
+    width: var(--uc-window-drag-space-post) !important;
+    display: flex !important; 
+  }
+  #TabsToolbar > .titlebar-buttonbox-container{
+    display: flex;
+  }
+}
+@supports -moz-bool-pref("userchrome.force-window-controls-on-left.enabled"){
+  :root:not([inFullscreen]) #TabsToolbar-customization-target > .titlebar-spacer[type="pre-tabs"]{
+    width: var(--uc-window-drag-space-post) !important;
+    display: flex !important; 
+  }
+  #TabsToolbar > .titlebar-buttonbox-container{
+    display: flex;
+  }
+}
+
+/* 1px margin on touch density causes tabs to be too high */
+.tab-close-button{ margin-top: 0 !important }
+
+/* Make opened urlbar overlay the toolbar */
+#urlbar[open]:focus-within{
+  min-width: var(--uc-urlbar-min-width,none) !important;
+  right: 0 !important;
+  left: auto !important;
+}
+
+/* Hide dropdown placeholder */
+#urlbar-container:not(:hover) .urlbar-history-dropmarker{ margin-inline-start: -28px; }
+
+/* Fix customization view */
+#customization-panelWrapper > .panel-arrowbox > .panel-arrow{ margin-inline-end: initial !important; }
+
+
+/* --- VERTICAL BOOKMARKS BAR --- */
+
+/* Source file https://github.com/MrOtherGuy/firefox-csshacks/tree/master/chrome/vertical_bookmarks_toolbar.css made available under Mozilla Public License v. 2.0 */
+
+@-moz-document url(chrome://browser/content/browser.xhtml){
+
+  :root:not([inDOMFullscreen]){
+    --uc-vertical-toolbar-width: 28px;
+  }
+  #navigator-toolbox{ position: relative }
+  #PersonalToolbar{
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    top: 100%;
+    left: 0;
+    width: var(--uc-vertical-toolbar-width,0);
+    min-width: unset !important;
+    /* These create a empty area to the bottom of the toolbar, which is to mask a fact that we don't know exactly how high the toolbar should be */
+    height: 100vh;
+    max-height: 100vh !important; 
+    padding-bottom: 120px !important;
+    padding-inline: 2px !important;
+    
+  }
+  #PersonalToolbar .toolbarbutton-1{
+    --toolbarbutton-inner-padding: 10px !important;
+  }
+  #PersonalToolbar #PlacesChevron{
+    display: none;
+  }
+  #PersonalToolbar > #personal-bookmarks{
+    overflow-y: auto;
+    scrollbar-width: none;
+    height: 100vh;
+  }
+  
+  #PlacesToolbar,
+  #PlacesToolbarDropIndicatorHolder{
+    -moz-box-orient: vertical !important; /* Can be removed with Firefox 112 */
+    flex-direction: column;
+  }
+  
+  #PersonalToolbar #PlacesToolbarItems{
+    display: flex !important;
+    flex-direction: column;
+    overflow-y: auto;
+    scrollbar-width: none;
+  }
+  #PersonalToolbar > toolbaritem{
+    justify-content: center;
+  }
+  #PersonalToolbar #PlacesToolbarItems > toolbarseparator{
+    height: 7px;
+    background-color: currentColor;
+    background-clip: padding-box;
+    border-block: 3px solid transparent !important;
+  }
+
+  #PersonalToolbar #PlacesToolbarItems > .bookmark-item{
+    padding-block: 4px !important;
+    margin-inline: 0 !important;
+  }
+  
+  #browser,
+  #browser-bottombox,
+  #main-window > body::after, /* This selector is for compatibility with tabs_below_content.css */
+  #customization-container{
+    margin-left: var(--uc-vertical-toolbar-width,0);
+  }
+  :root:is([chromehidden~="toolbar"],[sizemode="fullscreen"]) > body > #browser,
+  :root:is([chromehidden~="toolbar"],[sizemode="fullscreen"]) > body > #browser-bottombox,
+  #main-window:is([chromehidden~="toolbar"],[sizemode="fullscreen"]) > body::after,
+  :root:is([chromehidden~="toolbar"],[sizemode="fullscreen"]) > body > #customization-container{
+    margin-left: 0;
+  }
+  /* You should probably disable this if you have Firefox < 113 */
+  #PersonalToolbar #PlacesToolbarItems{
+    display: -webkit-box !important;
+    -webkit-box-orient: vertical !important;
+  }
+  
+}
+
+/* --- HIDING TAB SEARCH BUTTON --- */
+#alltabs-button{display:none!important;}
