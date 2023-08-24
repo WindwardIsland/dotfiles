@@ -1,0 +1,16 @@
+/**
+ * Taken and modified from: https://github.com/adi1090x/rofi
+ * 
+ * Colors
+ *
+ * Available Colors Schemes
+ *
+ * adapta    catppuccin    everforest    navy       paper
+ * arc       cyberpunk     gruvbox       nord       solarized
+ * black     dracula       lovelace      onedark    yousai
+ *
+ **/
+
+/* Import color-scheme from `colors` directory */
+
+@import "~/.config/rofi/colorscheme/everforest.rasi"
