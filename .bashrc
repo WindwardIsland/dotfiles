@@ -73,3 +73,6 @@ fi
 
 # Run figlet displaying what is the current shell at startup
 basename $0 | figlet -tf Speed
+
+# Using antidot to clean up files in $HOME
+eval "$(antidot init)"
