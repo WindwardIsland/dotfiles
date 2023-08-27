@@ -58,7 +58,7 @@ alias dotfiles='/usr/bin/git --git-dir=$HOME/dotfiles/ --work-tree=$HOME'
 alias sshk='ssh-keygen -t rsa -b 2048 -C "yachatspacific@skiff.com"'
 
 # reflector alias
-alias getmirrors='reflector --connection-timeout 300 --download-timeout 300 -a 6 -c us -f 10 --score 10 -p "https,http" --sort rate --save /etc/pacman.d/mirrorlist'
+alias getmirrors='sudo reflector --connection-timeout 300 --download-timeout 300 -a 6 -c us -f 10 --score 10 -p "https,http" --sort rate --save /etc/pacman.d/mirrorlist'
 
 ## yt-dlp aliases
 
