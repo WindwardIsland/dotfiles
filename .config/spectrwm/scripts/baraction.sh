@@ -1,96 +1,71 @@
 #!/bin/sh
-# Example Bar Action Script for Linux.
-# Requires: acpi, iostat.
-# Tested on: Debian 10, Fedora 31.
-#
 
+# The "bar_action" script for Spectrwm. This script contains the information that will be displayed on the spectrwm bar.
+
+##-- Prints the date --##
 print_date() {
-	# The date is printed to the status bar by default.
-	# To print the date through this script, set clock_enabled to 0
-	# in spectrwm.conf.  Uncomment "print_date" below.
-	FORMAT="%a %b %d %R %Z %Y"
+	FORMAT="%m/%e/%y%l:%M %p"
 	DATE=`date "+${FORMAT}"`
-	echo -n "${DATE}     "
+	echo -n "${DATE}"
 }
 
-print_mem() {
-	MEM=`/usr/bin/free -m | grep ^Mem: | sed -E 's/ +/ /g' | cut -d ' ' -f4`
-	echo -n "Free mem: ${MEM}M  "
-}
-
-_print_cpu() {
-	printf "CPU: %3d%% User %3d%% Nice %3d%% Sys %3d%% Idle  " $1 $2 $3 $6
-}
-
-print_cpu() {
-	OUT=""
-	# Remove the decimal part from all the percentages.
-	while [ "${1}x" != "x" ]; do
-		OUT="$OUT `echo "${1}" | cut -d '.' -f1`"
-		shift;
-	done
-	_print_cpu $OUT
-}
-
-print_cpuspeed() {
-	CPU_SPEED=`/usr/bin/lscpu | grep '^CPU MHz:' | sed -E 's/ +/ /g' | cut -d ' ' -f3 | cut -d '.' -f1`
-	printf "CPU speed: %4d MHz  " $CPU_SPEED
-}
-
-print_bat() {
-	AC_STATUS="$3"
-	BAT_STATUS="$6"
-	# Most battery statuses fit into a single word, except "Not charging"
-	# for which we need to have special handling.
-	if [ "$BAT_STATUS" = "Not" ]; then
-		BAT_STATUS="$BAT_STATUS $7"
-		shift
+##-- Prints the battery --##
+print_bat () {
+	if [[ $(acpi -b | awk '/Battery 0:/ {print $3}' | awk -F "," '{print $1}') = "Discharging" ]]; then
+		BAT_STATUS=$(acpi -b | sed 's/Discharging,/󱟞 /g' | awk '{print $3" "}') 
+	elif [[ $(acpi -b | awk '/Battery 0:/ {print $3}' | awk -F "," '{print $1}') = "Charging" ]]; then
+		BAT_STATUS=$(acpi -b | sed 's/Charging/󰂄 /g' | awk '{print $3" "}')
 	fi
-	BAT_LEVEL="`echo "$7" | tr -d ','`"
+	BAT_PERCENTAGE=$(acpi -b | awk '/Battery 0:/ {print $4}' | awk -F "," '{print $1}')
+	echo "$BAT_STATUS$BAT_PERCENTAGE"
+}
 
-	if [ "$AC_STATUS" != "" -o "$BAT_STATUS" != "" ]; then
-		if [ "$BAT_STATUS" = "Discharging," ]; then
-			echo -n "on battery ($BAT_LEVEL)"
-		else
-			case "$AC_STATUS" in
-			on-line)
-				AC_STRING="on AC: "
-				;;
-			*)
-				AC_STRING=""
-				;;
-			esac
-			case "$BAT_STATUS" in
-			"")
-				BAT_STRING="(no battery)"
-				;;
-			*harging,|Full,)
-				BAT_STRING="(battery $BAT_LEVEL)"
-				;;
-			*)
-				BAT_STRING="(battery unknown)"
-				;;
-			esac
+##-- Prints out the current Wi-Fi network that's being connected to --##
+print_wifi () {
+	if [[ -z "$(nmcli | awk '/^wlp2s0: / {print $4}')" ]]; then
+		WIFI_NETWORK="󰤭 "
+	elif [[ "$(nmcli | awk '/^wlp2s0: / {print $4}')" = "to" ]]; then
+		WIFI_NETWORK="󰤨  $(nmcli | awk '/^wlp2s0: / {print $4}' | sed 's/.*/.../g')"
+	else
+		WIFI_NETWORK="󰤨  $(nmcli | awk '/^wlp2s0: / {print $4}')"
+	fi
 
-			FULL="${AC_STRING}${BAT_STRING}"
-			if [ "$FULL" != "" ]; then
-				echo -n "$FULL"
-			fi
-		fi
+	echo "$WIFI_NETWORK"
+}
+
+##-- Prints the amount of updates (both for pacman and the AUR) --##
+# Taken from this script: https://github.com/polybar/polybar-scripts/blob/master/polybar-scripts/updates-pacman-aurhelper/updates-pacman-aurhelper.sh#LL4
+
+print_updates () {
+	if ! updates_arch=$(checkupdates 2> /dev/null | wc -l ); then
+    	updates_arch=0
+	fi
+
+	# if ! updates_aur=$(yay -Qum 2> /dev/null | wc -l); then
+	if ! updates_aur=$(paru -Qum 2> /dev/null | wc -l); then
+	# if ! updates_aur=$(cower -u 2> /dev/null | wc -l); then
+	# if ! updates_aur=$(trizen -Su --aur --quiet | wc -l); then
+	# if ! updates_aur=$(pikaur -Qua 2> /dev/null | wc -l); then
+	# if ! updates_aur=$(rua upgrade --printonly 2> /dev/null | wc -l); then
+    	updates_aur=0
+	fi
+
+	updates=$((updates_arch + updates_aur))
+
+	if [ "$updates" -gt 0 ]; then
+    	echo "$updates 󰚰 "
+	else
+    	echo ""
 	fi
 }
 
-# Cache the output of acpi(8), no need to call that every second.
-ACPI_DATA=""
-I=0
+print_disk_left () {
+	DISK_SPACE_LEFT=$(df -h | awk '/^\/dev\/nvme0n1p3/ {print $4}')
+	echo "$DISK_SPACE_LEFT left 󰋊 "
+}
+
+##-- Prints out all of the information on the bar all at once using a while loop --##
 while :; do
-	IOSTAT_DATA=`/usr/bin/iostat -c | grep '[0-9]$'`
-	if [ $I -eq 0 ]; then
-		ACPI_DATA=`/usr/bin/acpi -a 2>/dev/null; /usr/bin/acpi -b 2>/dev/null`
-	fi
-	# print_date
-	print_bat $ACPI_DATA
-	echo ""
-	I=$(( ( ${I} + 1 ) % 11 ))
+	echo "+@fg=1;$(print_updates)+@fg=0;| +@fg=7;$(print_disk_left)+@fg=0;| +@fg=4;$(print_bat) +@fg=0;| +@fg=6;$(print_wifi) +@fg=0;| $(print_date)" 
 	sleep 1
 done

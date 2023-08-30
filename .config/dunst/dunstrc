@@ -26,7 +26,7 @@
     progress_bar_frame_width = 1
     progress_bar_min_width = 150
     progress_bar_max_width = 400
-    progress_bar_corner_radius = 50
+    progress_bar_corner_radius = 0
     icon_corner_radius = 0
     indicate_hidden = yes
     transparency = 0
@@ -34,7 +34,7 @@
     padding = 12
     horizontal_padding = 14
     text_icon_padding = 20
-    frame_width = 1
+    frame_width = 2
     frame_color = "#aaaaaa"
 	highlight = "#a7c080"
     gap_size = 0
@@ -89,7 +89,7 @@
     always_run_script = true
     title = Dunst
     class = Dunst
-    corner_radius = 20
+    corner_radius = 0
     ignore_dbusclose = false
 
     # Wayland 

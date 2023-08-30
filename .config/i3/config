@@ -46,6 +46,7 @@ bindsym $mod+Shift+c exec --no-startup-id rofi -show calc -modi calc -no-show-ma
 bindsym $mod+c exec clipmenu
 bindsym $mod+e exec rofi -show emoji -modi emoji
 bindsym $mod+i exec rofi-wifi-menu
+bindsym $mod+Shift+p exec powermenu
 bindsym $mod+b exec librewolf
 bindsym $mod+m exec kitty -e cmus
 
