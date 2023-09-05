@@ -1,5 +1,5 @@
 # My Current Linux Setup
-These are my dotfiles for my current Linux setup (currently using Arch Linux with spectrwm).
+These are my dotfiles, which are various configuration files for programs that I use daily.
 
 ## Why does this repository exist?
 This repository exists in order to provide a way for easy access to my dotfiles. All the dotfiles I use for most of the programs I use can be found here. In addition, you are free to copy and use any of my dotfiles, as some of them are just copied from other people's dotfiles. However, don't try to copy _all_ my dotfiles, as some of them are specific to my needs and might not be that well suited for you.
