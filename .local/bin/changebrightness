@@ -1,0 +1,21 @@
+#!/bin/sh
+
+# Taken and modified from: https://github.com/ericmurphyxyz/dotfiles/blob/master/.local/bin/changebrightness
+
+# Use brightnessctl to adjust laptop screen brightness and send a notification displaying the current brightness level.
+
+send_notification() {
+	brightness=$(brightnessctl i | grep "Current brightness" | awk '{print $NF}' | awk -F "%" '{print $1}' | awk -F "(" '{print $NF}')
+	dunstify -a "changebrightness" -u low -r 9991 -h int:value:"$brightness" -i ""$XDG_CONFIG_HOME"/dunst/icons/brightness-$1.png" "Brightness: $brightness%" -t 2000
+}
+
+case $1 in
+up)
+	brightnessctl set 5%+
+	send_notification "$1"
+	;;
+down)
+	brightnessctl set 5%-
+	send_notification "$1"
+	;;
+esac

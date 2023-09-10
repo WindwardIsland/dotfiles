@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+
+# Taken and modified from: https://gitlab.com/ceda_ei/kaomoji-rofi
+
+current_wid=$(xdo id)
+selection=$(rofi -i -dmenu $@ < ~/.local/bin/kaomoji-text/kaomoji.txt)
+kaomoji=$(echo $selection | sed "s|$(echo -e "\ufeff").*||")
+echo -n "$kaomoji" | xclip -selection clipboard
+xdotool key --window $current_wid --clearmodifiers ctrl+v

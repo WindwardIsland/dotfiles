@@ -1,0 +1,12 @@
+#! /bin/sh
+
+# Taken and modified from: https://github.com/ericmurphyxyz/dotfiles/blob/master/.local/bin/powermenu
+
+chosen=$(printf "  Power Off\n  Restart\n  Lock" | rofi -dmenu -i -theme-str '@import "power.rasi"')
+
+case "$chosen" in
+	"  Power Off") systemctl poweroff ;;
+	"  Restart") systemctl reboot ;;
+	"  Lock") betterlockscreen -l dim ;;
+	*) exit 1 ;;
+esac
