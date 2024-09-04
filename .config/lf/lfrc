@@ -1,0 +1,101 @@
+set previewer ~/.config/lf/lf_kitty_preview
+set cleaner ~/.config/lf/lf_kitty_clean
+
+###---BASIC SETTINGS---###
+set shell sh
+set shellopts '-eu'
+set ifs "\n"
+set scrolloff 10
+set cursorpreviewfmt "\033[7;2m"
+set hidden true
+set ignorecase true
+set icons true
+
+###---CUSTOM SHELL FUNCTIONS FOR LF COMMANDS---###
+cmd mkdir %printf "Directory Name: " && read ans && mkdir $ans 
+
+cmd mkfile %printf "File Name: " && read ans && touch $ans
+
+cmd extract ${{
+  	case "$f" in
+  	  	*.zip) unzip "$f" ;;
+	  	*.tar.gz) tar -xzvf "$f" ;;
+	  	*.tar.bz2) tar -xjvf "$f" ;;
+	  	*.tar) tar -xvf "$f" ;;
+	  	*.rar) unrar x "$f" ;;
+	  	*.7z) 7z x "$f" ;;
+	  	*) echo "'$f' cannot be extracted."
+  	esac
+}}
+
+cmd dragon %dragon-drop -a $fx
+
+cmd chmod %printf "Mode Bits: " && read ans && for file in "$fx"; do chmod $ans $file; done
+
+cmd chown ${{
+	printf "Enter your user and group in this format - User:Group "
+	read ans
+	
+	for file in "$fx"; do
+		sudo chown $ans $file
+	done
+}}
+
+cmd sudomkfile ${{
+	printf "File Name: "
+	read ans
+	sudo -e $ans
+}}
+
+cmd sudomkdir ${{
+	printf "Directory Name: " 
+	read ans 
+	sudo mkdir $ans
+}} 
+
+cmd sudormfile %for file in "$fx"; do sudo rm $file; done
+
+cmd sudormdir %for file in "$fx"; do sudo rm -r $file; done
+
+###---KEYBINDINGS FOR LF COMMANDS---###
+
+##--Removing default keybindings--##
+map d
+map m
+map n
+map "'"
+map '"'
+map o
+map c
+map dsd
+map e
+
+##--Custom keybindings--##
+
+#-File manager-specific keybindings-#
+map . set hidden!
+map dd delete
+map dsf sudormfile
+map dsd sudormdir
+map p paste
+map x cut
+map y copy
+map <enter> open
+map R reload
+map mf mkfile
+map md mkdir
+map cm chmod
+map co chown
+map sf sudomkfile
+map sd sudomkdir
+map ex extract
+map C clear
+map v $nvim "$f"
+map dr dragon
+
+#-Navigation in the file manager-#
+map gd cd ~/Downloads
+map gp cd ~/Pictures
+map gc cd ~/.config
+map gr cd ~/gitrepos
+map gs cd ~/.local/bin
