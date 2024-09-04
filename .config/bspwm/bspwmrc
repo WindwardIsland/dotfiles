@@ -1,0 +1,53 @@
+#!/bin/sh
+
+###--Autostarting Programs--###
+pgrep -x sxhkd > /dev/null || sxhkd -c ~/.config/bspwm/sxhkd/sxhkdrc &
+bspc rule -r "*"
+xsetroot -cursor_name left_ptr
+$HOME/.local/bin/launch-polybar &
+flameshot &
+nitrogen --restore &
+killall "picom"
+picom -b
+dunst &
+killall "udiskie"
+nohup udiskie > /dev/null 
+killall "lxpolkit"
+nohup lxpolkit > /dev/null
+killall "greenclip"
+greenclip daemon &
+killall "cleanfullscreen"
+cleanfullscreen &
+
+###---BSPWM Configuration Options---###
+bspc monitor -d 1 2 3 4 5 6 7 8
+
+bspc config border_width         0
+bspc config window_gap           6 
+bspc config top_padding		    47
+bspc config initial_polarity first_child
+
+bspc config split_ratio          0.5
+bspc config borderless_monocle   false
+bspc config gapless_monocle      false
+
+###---BSPWM Window Rules---###
+addrule="bspc rule -a"
+
+##-- Graphical Applications--##
+$addrule kitty desktop='^2' follow=on
+$addrule LibreWolf desktop='^1' follow=on
+$addrule Virt-manager desktop='^4' follow=on
+$addrule Gimp-2.99 desktop='^6' follow=on
+$addrule kwave desktop='^5' follow=on
+$addrule Screenkey manage=off
+
+##--Scratchpads--##
+scratchopts="sticky=on state=floating rectangle=1500x900+220+100"
+
+$addrule terminal $scratchopts
+$addrule fm $scratchopts
+$addrule music $scratchopts
+$addrule obsidian $scratchopts
+$addrule Easytag $scratchopts
+$addrule Com.github.xournalpp.xournalpp $scratchopts

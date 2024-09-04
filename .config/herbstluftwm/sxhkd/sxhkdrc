@@ -1,0 +1,64 @@
+# My sxhkdrc file for herbstluftwm. 
+
+###---General Keybindings---###
+
+# Keybindings for various programs
+super + {shift + Return, b, n, v, s, g, o, shift + n, d}
+	{$TERMINAL, $BROWSER, nitrogen, virt-manager, flameshot gui, flatpak run org.gimp.GIMP, obsidian, NetLogo, drracket}
+
+# Run various dmenu scripts
+super + r; {r, c, k, p}
+	{dmenurun, dmenu-calc --dmenu=dmenu, kaomoji, powermenu}
+
+# Scratchpads
+super + {Return,m,shift + m,shift + t,x,shift + b,shift + e}
+	scratchpad {terminal,music,fm,tageditor,whiteboard,bluetooth,email}
+
+# Volume 
+XF86Audio{RaiseVolume,LowerVolume,Mute}
+	changevolume {up,down,mute}
+
+# Brightness
+XF86MonBrightness{Up,Down}
+	changebrightness {up,down}
+
+# Kill Dragon Drag-And-Drop 
+super + shift + d
+	pkill dragon-drop
+
+# Reload SXHKD
+super + shift + s
+	pkill -USR1 -x sxhkd && notify-send -u low "SXHKD Keybindings Reloaded."
+
+# Restart polybar
+super + shift + p
+	killall polybar && launch-polybar
+
+# Run betterlockscreen to lock your computer screen
+super + e
+	lockscreen
+
+###---HerbstlufWM-Specific Keybindings---###
+# Close windows, restart, and quit herbstluftwm
+super + {q,shift + r,shift + q}
+	herbstclient {close,reload,quit}
+
+# Switch between windows
+super + {h, j, k, l}
+	herbstclient focus {left, down, up, right}
+
+# Switching window placement
+super + shift + {h,j,k,l}
+	herbstclient shift {left,down,up,right}
+
+# Resizing windows
+super + control + {h,j,k,l}
+	herbstclient resize {left +0.02,down +0.02,up +0.02,right +0.02}
+
+# Cycling through windows/monitors
+super + {Tab,shift + Tab,c,BackSpace}
+	herbstclient {cycle_all +1,cycle_all -1,cycle,cycle_monitor}
+
+# Toggle between different modes (floating and fullscreen)
+super + {f, shift + f, p}
+	herbstclient {floating,fullscreen,pseudotile} toggle
