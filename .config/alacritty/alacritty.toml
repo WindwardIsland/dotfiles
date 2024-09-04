@@ -1,0 +1,57 @@
+[env]
+TERM = "xterm-256color"
+
+[window]
+dynamic_padding = true
+decorations = "None"
+opacity = 1.0
+padding = { x = 0, y = 0 }
+
+[scrolling]
+history = 100000
+multiplier = 3
+
+[font]
+normal = { family = "FantasqueSansM Nerd Font", style = "Regular" }
+bold = { family = "FantasqueSansM Nerd Font", style = "Bold" }
+italic = { family = "FantasqueSansM Nerd Font", style = "Italic" }
+bold_italic = { family = "FantasqueSansM Nerd Font", style = "Bold Italic" }
+size = 11.5
+
+[colors.primary]
+foreground = "#D4D8DF"
+background = "#282C34"
+
+[colors.normal]
+black = "#282C34"
+red = "#E06C75"
+green = "#98C379"
+yellow = "#E5C07B"
+blue = "#61AFEF"
+magenta = "#C678DD"
+cyan = "#56B6C2"
+white = "#D4D8DF"
+
+[colors.bright]
+black = "#868d80"
+red = "#E06C75"
+green = "#98C379"
+yellow = "#E5C07B"
+blue = "#61AFEF"
+magenta = "#C678DD"
+cyan = "#56B6C2"
+white = "#D4D8DF"
+
+[colors.selection]
+text = "#ABB2BF"
+background = "#505a60"
+
+[colors]
+draw_bold_text_with_bright_colors = true
+
+[cursor.style]
+shape = "Underline"
+blinking = "On"
+
+[cursor]
+thickness = 0.20
