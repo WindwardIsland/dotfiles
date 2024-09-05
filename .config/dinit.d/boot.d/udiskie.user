@@ -1,0 +1,4 @@
+type = process
+command = udiskie
+logfile = /home/windward/.config/dinit.d/logs/udiskie.log
+smooth-recovery = true

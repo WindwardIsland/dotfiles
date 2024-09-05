@@ -1,0 +1,5 @@
+type = process
+command = /home/windward/.config/dinit.d/scripts/redshift-location
+logfile = /home/windward/.config/dinit.d/logs/redshift.log
+smooth-recovery = true
+depends-on = online.user

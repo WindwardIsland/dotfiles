@@ -1,0 +1,5 @@
+type = process
+command = /home/windward/.config/dinit.d/scripts/dbus-session --print-address 3
+smooth-recovery = true
+logfile = /home/windward/.config/dinit.d/logs/dbus.log
+ready-notification = pipefd:3

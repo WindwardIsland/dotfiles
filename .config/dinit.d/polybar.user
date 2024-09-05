@@ -1,0 +1,5 @@
+type = scripted
+command = /home/windward/.config/dinit.d/scripts/launch-polybar
+restart = false
+logfile = /home/windward/.config/dinit.d/logs/polybar.log
+depends-on = online.user

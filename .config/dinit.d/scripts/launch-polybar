@@ -1,0 +1,13 @@
+#!/bin/sh
+
+# Terminate already running bar instances
+# If all your bars have ipc enabled, you can use 
+polybar-msg cmd quit
+# Otherwise you can use the nuclear option:
+# killall -q polybar
+
+# Launch the default bar and a separate bar just for the system tray 
+echo "---" | tee -a /tmp/defaultbar.log
+polybar --config="${HOME}"/.config/polybar/config.ini default 2>&1 | tee -a /tmp/defaultbar.log &
+
+echo "Bars launched..."

@@ -1,0 +1,7 @@
+type = process
+logfile = /home/windward/.config/dinit.d/logs/wireplumber.log
+command = wireplumber
+restart = true
+smooth-recovery = true
+depends-on = pipewire.user
+depends-on = pipewire-pulse.user

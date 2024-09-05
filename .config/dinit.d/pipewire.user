@@ -1,0 +1,5 @@
+type = process
+logfile = /home/windward/.config/dinit.d/logs/pipewire.log
+command = pipewire
+restart = true
+depends-on = dbus.user

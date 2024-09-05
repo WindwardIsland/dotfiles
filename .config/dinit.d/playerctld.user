@@ -1,0 +1,5 @@
+type = scripted
+command = playerctld daemon
+restart = false
+logfile = /home/windward/.config/dinit.d/logs/playerctld.log
+depends-on = dbus.user

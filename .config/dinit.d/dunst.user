@@ -1,0 +1,5 @@
+type = process
+command = dunst
+logfile = /home/windward/.config/dinit.d/logs/dunst.log
+smooth-recovery = true
+depends-on = dbus.user

@@ -1,0 +1,9 @@
+#!/bin/sh
+
+IP_ADDR=$(curl -s ifconfig.me)
+LAT_LONG=$(
+curl -s https://tools.keycdn.com/geo?host="${IP_ADDR}" |
+	grep -oE "[0-9]+\.[0-9]+ \(lat\) / .[0-9]+\.[0-9]+ \(long\)" |
+	sed -e 's/ ([^)]*)//g' -e 's| / |:|')
+
+exec redshift -l "${LAT_LONG}" 2>&1

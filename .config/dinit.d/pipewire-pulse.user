@@ -1,0 +1,5 @@
+type = process
+logfile = /home/windward/.config/dinit.d/logs/pipewire-pulse.log
+command = pipewire-pulse
+restart = true
+depends-on = pipewire.user

@@ -1,0 +1,4 @@
+type = scripted
+command = /home/windward/.config/dinit.d/scripts/online
+restart = false
+logfile = /home/windward/.config/dinit.d/logs/online.log
