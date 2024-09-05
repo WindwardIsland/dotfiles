@@ -1,0 +1,130 @@
+config:
+  backup: true
+  banner: true
+  create: true
+  dotpath: /home/windward/gitrepos/personal/dotfiles
+  keepdot: true
+  link_dotfile_default: nolink
+  link_on_import: nolink
+  longkey: true
+dotfiles:
+  d_config_alacritty:
+    src: .config/alacritty
+    dst: ~/.config/alacritty
+  d_config_kitty:
+    src: .config/kitty
+    dst: ~/.config/kitty
+  d_config_bspwm:
+    src: .config/bspwm
+    dst: ~/.config/bspwm
+  d_config_dk:
+    src: .config/dk
+    dst: ~/.config/dk
+  d_config_herbstluftwm:
+    src: .config/herbstluftwm
+    dst: ~/.config/herbstluftwm
+  d_config_i3:
+    src: .config/i3
+    dst: ~/.config/i3
+  d_config_spectrwm:
+    src: .config/spectrwm
+    dst: ~/.config/spectrwm
+  d_config_dunst:
+    src: .config/dunst
+    dst: ~/.config/dunst
+  d_config_fontconfig:
+    src: .config/fontconfig
+    dst: ~/.config/fontconfig
+  d_config_lf:
+    src: .config/lf
+    dst: ~/.config/lf
+  d_config_neofetch:
+    src: .config/neofetch
+    dst: ~/.config/neofetch
+  d_config_networkmanager-dmenu:
+    src: .config/networkmanager-dmenu
+    dst: ~/.config/networkmanager-dmenu
+  d_config_nvim:
+    src: .config/nvim
+    dst: ~/.config/nvim
+  d_config_picom:
+    src: .config/picom
+    dst: ~/.config/picom
+  d_config_polybar:
+    src: .config/polybar
+    dst: ~/.config/polybar
+  f_config_dinit.d_dbus.user:
+    src: .config/dinit.d/dbus.user
+    dst: ~/.config/dinit.d/dbus.user
+  f_config_dinit.d_dunst.user:
+    src: .config/dinit.d/dunst.user
+    dst: ~/.config/dinit.d/dunst.user
+  f_config_dinit.d_mate-polkit.user:
+    src: .config/dinit.d/mate-polkit.user
+    dst: ~/.config/dinit.d/mate-polkit.user
+  f_config_dinit.d_online.user:
+    src: .config/dinit.d/online.user
+    dst: ~/.config/dinit.d/online.user
+  f_config_dinit.d_pipewire-pulse.user:
+    src: .config/dinit.d/pipewire-pulse.user
+    dst: ~/.config/dinit.d/pipewire-pulse.user
+  f_config_dinit.d_pipewire.user:
+    src: .config/dinit.d/pipewire.user
+    dst: ~/.config/dinit.d/pipewire.user
+  f_config_dinit.d_playerctld.user:
+    src: .config/dinit.d/playerctld.user
+    dst: ~/.config/dinit.d/playerctld.user
+  f_config_dinit.d_polybar.user:
+    src: .config/dinit.d/polybar.user
+    dst: ~/.config/dinit.d/polybar.user
+  f_config_dinit.d_redshift.user:
+    src: .config/dinit.d/redshift.user
+    dst: ~/.config/dinit.d/redshift.user
+  f_config_dinit.d_udiskie.user:
+    src: .config/dinit.d/udiskie.user
+    dst: ~/.config/dinit.d/udiskie.user
+  f_config_dinit.d_wireplumber.user:
+    src: .config/dinit.d/wireplumber.user
+    dst: ~/.config/dinit.d/wireplumber.user
+  d_config_dinit.d_scripts:
+    src: .config/dinit.d/scripts
+    dst: ~/.config/dinit.d/scripts
+  f_config_dinit.d_boot:
+    src: .config/dinit.d/boot
+    dst: ~/.config/dinit.d/boot
+  d_config_dinit.d_boot.d:
+    src: .config/dinit.d/boot.d
+    dst: ~/.config/dinit.d/boot.d
+    chmod: '775'
+profiles:
+  artix:
+    dotfiles:
+    - d_config_alacritty
+    - d_config_kitty
+    - d_config_bspwm
+    - d_config_dk
+    - d_config_herbstluftwm
+    - d_config_i3
+    - d_config_spectrwm
+    - d_config_dunst
+    - d_config_fontconfig
+    - d_config_lf
+    - d_config_neofetch
+    - d_config_networkmanager-dmenu
+    - d_config_nvim
+    - d_config_picom
+    - d_config_polybar
+    - f_config_dinit.d_dbus.user
+    - f_config_dinit.d_dunst.user
+    - f_config_dinit.d_mate-polkit.user
+    - f_config_dinit.d_online.user
+    - f_config_dinit.d_pipewire-pulse.user
+    - f_config_dinit.d_pipewire.user
+    - f_config_dinit.d_playerctld.user
+    - f_config_dinit.d_polybar.user
+    - f_config_dinit.d_redshift.user
+    - f_config_dinit.d_udiskie.user
+    - f_config_dinit.d_wireplumber.user
+    - d_config_dinit.d_scripts
+    - f_config_dinit.d_boot
+    - d_config_dinit.d_boot.d
