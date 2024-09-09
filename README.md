@@ -1,5 +1,7 @@
 <h1 align="center">WindwardIsland/dotfiles</h1>
 
+<img src="./screenshots/herbstluftwm.png" width="100%"></img>
+
 This repository stores all my configuration files for various programs on Linux that I use.
 
 Feel free to poke around in here and take and use whatever you think might be useful on your Linux system.
