@@ -1,6 +1,6 @@
 <h1 align="center">WindwardIsland/dotfiles</h1>
 
-<img src="screenshots/herbstluftwm.png" width="100%" />
+<!-- <img src="screenshots/herbstluftwm.png" width="100%" /> -->
 
 This repository stores all my configuration files for various programs on Linux that I use.
 
